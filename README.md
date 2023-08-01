@@ -1,16 +1,7 @@
 # racist_o_meter
 
-A new Flutter project.
+Aplicacion móvil basada en [este video](https://www.youtube.com/shorts/XosEdKikOAc)
 
-## Getting Started
+## Idea
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Esta aplicación recibe una oración, frase, etc. por micrófono y responde si lo que se dijo es racista o no, y da una explicación. Usa ChatGPT para generar la respuesta.
