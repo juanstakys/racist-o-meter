@@ -36,6 +36,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  # Third-party packages
+  speech_to_text: ^6.3.0
+  avatar_glow: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
