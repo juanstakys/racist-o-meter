@@ -53,8 +53,8 @@ return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: _escucharMicrofono,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        tooltip: 'Press button to speak',
+        child: const Icon(Icons.mic),
       ), 
     );
   }
