@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool _esRacista = false;
 
-  void _obtenerRespuesta() {
+  void _escucharMicrofono() {
     setState(() {
      _esRacista = !_esRacista;
     });
@@ -52,8 +52,7 @@ return Scaffold(
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        
-        onPressed: _obtenerRespuesta,
+        onPressed: _escucharMicrofono,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), 
