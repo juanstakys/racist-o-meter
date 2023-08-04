@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Racist-o-meter',
       theme: ThemeData(
-     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: const MyHomePage(),
@@ -30,23 +30,65 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _esRacista = false;
+  // States y funciones necesarias del módulo speech_to_text
 
-  void _escucharMicrofono() {
+  final SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  /// This has to happen only once per app
+  void _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    setState(() {});
+  }
+
+  /// Each time to start a speech recognition session
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+  }
+
+  /// Manually stop the active speech recognition session
+  /// Note that there are also timeouts that each platform enforces
+  /// and the SpeechToText plugin supports setting timeouts on the
+  /// listen method.
+  void _stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  /// This is the callback that the SpeechToText plugin calls when
+  /// the platform returns recognized words.
+  void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
-     _esRacista = !_esRacista;
+      if (result.finalResult) {
+        _lastWords = result.recognizedWords;
+        print(_lastWords);
+      }
     });
   }
 
+  // States y funciones propias de la app
+
+  bool _esRacista = false;
+
   @override
   Widget build(BuildContext context) {
-return Scaffold(
+    return Scaffold(
       body: Center(
-         child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              (_esRacista ? "Lo que dijiste es racista >:(" : "Lo que dijiste NO es racista :)" ),
+              (_esRacista
+                  ? "Lo que dijiste es racista >:("
+                  : "Lo que dijiste NO es racista :)"),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
@@ -54,10 +96,11 @@ return Scaffold(
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: _escucharMicrofono,
+        onPressed:
+            _speechToText.isNotListening ? _startListening : _stopListening,
         tooltip: 'Press button to speak',
         child: const Icon(Icons.mic),
-      ), 
+      ),
     );
   }
 }
