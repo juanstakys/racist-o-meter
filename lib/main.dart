@@ -31,6 +31,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  // Variables para realizar las peticiones a la api con el paquete http
+  
+  var url = Uri.https('restcountries.com', 'v3.1/name/argentina');
+  Future<String> getCountries() async {
+    var response = await http.get(url);
+    return response.body;
+  }
+
+
+
   // States y funciones necesarias del módulo speech_to_text
 
   final SpeechToText _speechToText = SpeechToText();
@@ -67,10 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
   /// This is the callback that the SpeechToText plugin calls when
   /// the platform returns recognized words.
   void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() {
+    setState(() async {
       if (result.finalResult) {
         _lastWords = result.recognizedWords;
         print(_lastWords);
+        print(await getCountries());
       }
     });
   }
