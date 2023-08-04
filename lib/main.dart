@@ -35,9 +35,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // Variables para realizar las peticiones a la api con el paquete http
 
-  var url = Uri.http('192.168.0.13:8080', 'deteccion');
-  Future<http.Response> getRespuesta() async {
-    var response = await http.get(url);
+  Future<http.Response> getRespuesta(String frase) async {
+    var url = Uri.http('192.168.0.13:8080', 'deteccion');
+    Map data = {
+      'frase': frase
+    };
+    var body = json.encode(data);
+    print("Esperando respuesta de para: \"$frase\"");
+    var response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: body,
+      );
     return response;
   }
 
@@ -80,12 +89,12 @@ class _MyHomePageState extends State<MyHomePage> {
     if (result.finalResult) {
       _lastWords = result.recognizedWords;
       print(_lastWords);
-      var res = await getRespuesta();
+      var res = await getRespuesta(_lastWords);
       var data = json.decode(res.body);
       print(data["esRacista"]);
       setState(() {
-      _esRacista = data["esRacista"];
-    });
+        _esRacista = data["esRacista"];
+      });
     }
   }
 
