@@ -121,7 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed:
-            _speechToText.isNotListening ? _startListening : _stopListening,
+          () {setState(() {
+            _esRacista = !_esRacista;
+          });},
+           // _speechToText.isNotListening ? _startListening : _stopListening,
         tooltip: 'Press button to speak',
         child: const Icon(Icons.mic),
       ),
