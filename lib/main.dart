@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -31,16 +33,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   // Variables para realizar las peticiones a la api con el paquete http
-  
+
   var url = Uri.http('192.168.0.13:8080', 'deteccion');
-  Future<String> getRespuesta() async {
+  Future<http.Response> getRespuesta() async {
     var response = await http.get(url);
-    return response.body;
+    return response;
   }
-
-
 
   // States y funciones necesarias del módulo speech_to_text
 
@@ -77,14 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// This is the callback that the SpeechToText plugin calls when
   /// the platform returns recognized words.
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    setState(() async {
-      if (result.finalResult) {
-        _lastWords = result.recognizedWords;
-        print(_lastWords);
-        print(await getRespuesta());
-      }
+  void _onSpeechResult(SpeechRecognitionResult result) async {
+    if (result.finalResult) {
+      _lastWords = result.recognizedWords;
+      print(_lastWords);
+      var res = await getRespuesta();
+      var data = json.decode(res.body);
+      print(data["esRacista"]);
+      setState(() {
+      _esRacista = data["esRacista"];
     });
+    }
   }
 
   // States y funciones propias de la app
@@ -114,6 +116,22 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Press button to speak',
         child: const Icon(Icons.mic),
       ),
+    );
+  }
+}
+
+// Clase respuestaGPT
+
+class RespuestaGPT {
+  bool esRacista;
+  String explicacion;
+
+  RespuestaGPT({required this.esRacista, required this.explicacion});
+
+  factory RespuestaGPT.fromJson(Map<String, dynamic> json) {
+    return RespuestaGPT(
+      esRacista: json['esRacista'],
+      explicacion: json["explicacion"],
     );
   }
 }
