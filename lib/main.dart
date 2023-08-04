@@ -34,8 +34,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Variables para realizar las peticiones a la api con el paquete http
   
-  var url = Uri.https('restcountries.com', 'v3.1/name/argentina');
-  Future<String> getCountries() async {
+  var url = Uri.http('192.168.0.13:8080', 'deteccion');
+  Future<String> getRespuesta() async {
     var response = await http.get(url);
     return response.body;
   }
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (result.finalResult) {
         _lastWords = result.recognizedWords;
         print(_lastWords);
-        print(await getCountries());
+        print(await getRespuesta());
       }
     });
   }
