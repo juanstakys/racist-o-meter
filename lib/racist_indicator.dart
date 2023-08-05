@@ -35,6 +35,7 @@ class RacistIndicatorState extends State<RacistIndicator> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              const SizedBox(width: 40), // Sizedbox for the text to stay centered (balances with InfoPopupWidget) TO-DO: Check wether it is a good practice or not, find alternative to keep the text centered with the icon on the right
               Text(
                 (_isItRacist ? "RACIST" : "NOT RACIST"),
                 style: const TextStyle(
