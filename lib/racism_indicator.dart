@@ -100,7 +100,7 @@ class RacismIndicatorState extends State<RacismIndicator> {
     if (speechResult.finalResult) {
       _lastWords = speechResult.recognizedWords;
       print(_lastWords);
-      // Call backend API to get if the phrase was racist or not
+      // Call backend API to get whether the phrase was racist or not
       Map analysisResults = await racismDetection(_lastWords);
       setState(() {
         _isItRacist = analysisResults["isItRacist"] ? true : false; 
