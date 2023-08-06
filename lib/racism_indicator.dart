@@ -59,29 +59,55 @@ class RacismIndicatorState extends State<RacismIndicator> {
           ),
         ),
         child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                  width:
-                      40), // Sizedbox for the text to stay centered (balances with InfoPopupWidget) TO-DO: Check wether it is a good practice or not, find alternative to keep the text centered with the icon on the right
-              Text(
-                (_isItRacist ? "RACIST" : "NOT RACIST"),
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: InfoPopupWidget(
-                  contentTitle: _explanation,
-                  child: Icon(Icons.info),
-                ),
-              )
-            ],
+          child: FutureBuilder(
+            future: racismDetection(_lastWords),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return const Center(
+                    child: Text(
+                      "Say something",
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                  );
+                case ConnectionState.waiting:
+                  return const CircularProgressIndicator();
+                case ConnectionState.active:
+                  return const Center(
+                    child: Text("I don't know what happened here"),
+                  );
+                case ConnectionState.done:
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const SizedBox(
+                          width:
+                              40), // Sizedbox for the text to stay centered (balances with InfoPopupWidget) TO-DO: Check wether it is a good practice or not, find alternative to keep the text centered with the icon on the right
+                      Text(
+                        (_isItRacist ? "RACIST" : "NOT RACIST"),
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: InfoPopupWidget(
+                          contentTitle: _explanation,
+                          child: Icon(Icons.info),
+                        ),
+                      )
+                    ],
+                  );
+              } // switch statement
+            },
           ),
         ),
       ),
