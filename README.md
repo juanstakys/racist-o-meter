@@ -1,4 +1,4 @@
-# racist_o_meter
+# racist-o-meter
 
 Mobile app based on [this video](https://www.youtube.com/shorts/XosEdKikOAc).
 
