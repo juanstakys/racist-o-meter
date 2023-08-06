@@ -1,22 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:info_popup/info_popup.dart';
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
 // import 'dart:convert';
-// import 'package:speech_to_text/speech_recognition_result.dart';
-// import 'package:speech_to_text/speech_to_text.dart';
 // import 'package:http/http.dart' as http;
 
-class RacistIndicator extends StatefulWidget {
-  const RacistIndicator({super.key});
+class RacismIndicator extends StatefulWidget {
+  const RacismIndicator({super.key});
 
   @override
-  State<RacistIndicator> createState() => RacistIndicatorState();
+  State<RacismIndicator> createState() => RacismIndicatorState();
 }
 
-class RacistIndicatorState extends State<RacistIndicator> {
-
+class RacismIndicatorState extends State<RacismIndicator> {
   // Variables and functions
   bool _isItRacist = false;
 
+  final SpeechToText _speechToText = SpeechToText();
+  String _lastWords = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  /// This has to happen only once per app
+  void _initSpeech() async {
+    await _speechToText.initialize();
+    setState(() {});
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    if(result.finalResult){
+      _lastWords = result.recognizedWords;
+      print(_lastWords);
+    }
+  }
 
   // Build
   @override
@@ -25,7 +55,9 @@ class RacistIndicatorState extends State<RacistIndicator> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: (_isItRacist ? [const Color(0xffdf1b0c), const Color(0xff6b0a2b)] : [const Color(0xff89ff8e), const Color(0xff45a7f5)]),
+            colors: (_isItRacist
+                ? [const Color(0xffdf1b0c), const Color(0xff6b0a2b)]
+                : [const Color(0xff89ff8e), const Color(0xff45a7f5)]),
             stops: const [0, 1],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -35,7 +67,9 @@ class RacistIndicatorState extends State<RacistIndicator> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(width: 40), // Sizedbox for the text to stay centered (balances with InfoPopupWidget) TO-DO: Check wether it is a good practice or not, find alternative to keep the text centered with the icon on the right
+              const SizedBox(
+                  width:
+                      40), // Sizedbox for the text to stay centered (balances with InfoPopupWidget) TO-DO: Check wether it is a good practice or not, find alternative to keep the text centered with the icon on the right
               Text(
                 (_isItRacist ? "RACIST" : "NOT RACIST"),
                 style: const TextStyle(
@@ -59,9 +93,9 @@ class RacistIndicatorState extends State<RacistIndicator> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Testing
-          setState(() {
-            _isItRacist = !_isItRacist;
+          _speechToText.isNotListening ? _startListening() : _stopListening();
+          setState(() async {
+            _isItRacist =!_isItRacist;
           });
         },
         shape: const CircleBorder(),
@@ -71,3 +105,7 @@ class RacistIndicatorState extends State<RacistIndicator> {
     );
   }
 }
+
+
+
+
