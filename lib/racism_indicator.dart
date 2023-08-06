@@ -14,7 +14,9 @@ class RacismIndicator extends StatefulWidget {
 
 class RacismIndicatorState extends State<RacismIndicator> {
   // Variables and functions
+  Map? analysisResults;
   bool _isItRacist = false;
+  String _explanation = "You are not racist until proven otherwise";
 
   final SpeechToText _speechToText = SpeechToText();
   String _lastWords = '';
@@ -72,10 +74,10 @@ class RacismIndicatorState extends State<RacismIndicator> {
                   color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8.0),
                 child: InfoPopupWidget(
-                  contentTitle: 'Info Popup Details',
+                  contentTitle: _explanation,
                   child: Icon(Icons.info),
                 ),
               )
@@ -100,9 +102,10 @@ class RacismIndicatorState extends State<RacismIndicator> {
     if (speechResult.finalResult) {
       _lastWords = speechResult.recognizedWords;
       // Call backend API to get whether the phrase was racist or not
-      Map analysisResults = await racismDetection(_lastWords);
+      analysisResults = await racismDetection(_lastWords);
       setState(() {
-        _isItRacist = analysisResults["isItRacist"] ? true : false; 
+        _isItRacist = analysisResults?["isItRacist"];
+        _explanation = analysisResults?["explanation"];
       });
     }
   }
