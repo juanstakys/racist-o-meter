@@ -99,7 +99,6 @@ class RacismIndicatorState extends State<RacismIndicator> {
   void _onSpeechResult(SpeechRecognitionResult speechResult) async {
     if (speechResult.finalResult) {
       _lastWords = speechResult.recognizedWords;
-      print(_lastWords);
       // Call backend API to get whether the phrase was racist or not
       Map analysisResults = await racismDetection(_lastWords);
       setState(() {
@@ -110,6 +109,7 @@ class RacismIndicatorState extends State<RacismIndicator> {
 
   // API Call
   Future<Map> racismDetection(String statement) async {
+    // TO-DO: Set server url from a variable
     var url = Uri.http('192.168.0.13:8080', 'deteccion');
     var response = await http.post(
       url,
