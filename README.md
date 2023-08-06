@@ -1,6 +1,6 @@
 # racist_o_meter
 
-Mobile app based on [this video](https://www.youtube.com/shorts/XosEdKikOAc)
+Mobile app based on [this video](https://www.youtube.com/shorts/XosEdKikOAc).
 
 ## Idea
 Detect racism and hateful speech using OpenAI's ChatGPT
