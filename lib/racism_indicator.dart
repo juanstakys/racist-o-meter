@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:info_popup/info_popup.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class RacismIndicator extends StatefulWidget {
   const RacismIndicator({super.key});
@@ -39,13 +39,6 @@ class RacismIndicatorState extends State<RacismIndicator> {
   void _stopListening() async {
     await _speechToText.stop();
     setState(() {});
-  }
-
-  void _onSpeechResult(SpeechRecognitionResult result) {
-    if(result.finalResult){
-      _lastWords = result.recognizedWords;
-      print(_lastWords);
-    }
   }
 
   // Build
@@ -94,9 +87,6 @@ class RacismIndicatorState extends State<RacismIndicator> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _speechToText.isNotListening ? _startListening() : _stopListening();
-          setState(() async {
-            _isItRacist =!_isItRacist;
-          });
         },
         shape: const CircleBorder(),
         tooltip: 'Press the button and speak',
@@ -104,8 +94,30 @@ class RacismIndicatorState extends State<RacismIndicator> {
       ),
     );
   }
+
+  // On speech result
+  void _onSpeechResult(SpeechRecognitionResult speechResult) async {
+    if (speechResult.finalResult) {
+      _lastWords = speechResult.recognizedWords;
+      print(_lastWords);
+      // Call backend API to get if the phrase was racist or not
+      Map analysisResults = await racismDetection(_lastWords);
+      setState(() {
+        _isItRacist = analysisResults["isItRacist"] ? true : false; 
+      });
+    }
+  }
+
+  // API Call
+  Future<Map> racismDetection(String statement) async {
+    var url = Uri.http('192.168.0.13:8080', 'deteccion');
+    var response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({'statement': statement}),
+    );
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(response.body);
+    return data;
+  }
 }
-
-
-
-
