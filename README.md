@@ -2,6 +2,8 @@
 
 Mobile app based on [this video](https://www.youtube.com/shorts/XosEdKikOAc).
 
+[Repository for the backend](https://github.com/juanstakys/racist_o_meter_backend).
+
 ## Idea
 Detect racism and hateful speech using OpenAI's ChatGPT
 
