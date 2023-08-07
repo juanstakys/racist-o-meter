@@ -76,10 +76,20 @@ class RacismIndicatorState extends State<RacismIndicator> {
                     ),
                   );
                 case ConnectionState.waiting:
-                  return const CircularProgressIndicator();
+                  return const Center(
+                    child: Text(
+                      "Waiting for GPT response",
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                  );
                 case ConnectionState.active:
                   return const Center(
-                    child: Text("I don't know what happened here"),
+                    child: Text("This text should not display. WTH?"),
                   );
                 case ConnectionState.done:
                   return Row(
