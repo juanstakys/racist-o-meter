@@ -22,20 +22,26 @@ class Indicator extends StatelessWidget {
 
 class MicButton extends StatelessWidget {
   bool isListening = true;
-  
 
   MicButton({super.key, required this.isListening});
 
   @override
   Widget build(BuildContext context) {
-    return AvatarGlow(
-      endRadius: isListening ? 40.0 : 0,
-      child: FloatingActionButton(
-        onPressed: () {},
-        shape: const CircleBorder(),
-        tooltip: 'Press the button to speak',
-        child: const Icon(Icons.mic),
-      ),
-    );
+    return isListening
+        ? AvatarGlow(
+            endRadius: 40.0,
+            child: FloatingActionButton(
+              onPressed: () {},
+              shape: const CircleBorder(),
+              tooltip: 'Press the button to speak',
+              child: const Icon(Icons.mic),
+            ),
+          )
+        : FloatingActionButton(
+            onPressed: () {},
+            shape: const CircleBorder(),
+            tooltip: 'Press the button to speak',
+            child: const Icon(Icons.mic),
+          );
   }
 }

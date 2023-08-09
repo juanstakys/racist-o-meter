@@ -137,7 +137,7 @@ class RacismIndicatorState extends State<RacismIndicator> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: MicButton(isListening: true)
+      floatingActionButton: MicButton(isListening: false)
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
       //     _speechToText.isNotListening ? _startListening() : _stopListening();
