@@ -137,15 +137,7 @@ class RacismIndicatorState extends State<RacismIndicator> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: MicButton()
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     _speechToText.isNotListening ? _startListening() : _stopListening();
-      //   },
-      //   shape: const CircleBorder(),
-      //   tooltip: 'Press the button to speak',
-      //   child: const Icon(Icons.mic),
-      // ),
+      floatingActionButton: const MicButton()
     );
   }
 
