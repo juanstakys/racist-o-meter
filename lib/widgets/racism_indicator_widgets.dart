@@ -37,7 +37,7 @@ class _MicButtonState extends State<MicButton> {
     return ConditionalParentWidget(
       condition: _isListening,
       child: Container(
-        margin: _isListening ? const EdgeInsets.all(0) : const EdgeInsets.all(32),
+        margin: _isListening ? const EdgeInsets.all(0) : const EdgeInsets.all(32), // margin is proportional to endRadius of AvatarGlow
         child: FloatingActionButton(
           onPressed: () {
             setState(() {
