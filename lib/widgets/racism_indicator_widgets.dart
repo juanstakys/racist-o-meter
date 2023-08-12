@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'conditional_parent_widget.dart';
 
 class Indicator extends StatelessWidget {
   final String text = '';
@@ -20,28 +21,36 @@ class Indicator extends StatelessWidget {
   }
 }
 
-class MicButton extends StatelessWidget {
-  bool isListening = true;
+class MicButton extends StatefulWidget {
 
-  MicButton({super.key, required this.isListening});
+  const MicButton({super.key});
+
+  @override
+  State<MicButton> createState() => _MicButtonState();
+}
+
+class _MicButtonState extends State<MicButton> {
+  bool _isListening = false;
 
   @override
   Widget build(BuildContext context) {
-    return isListening
-        ? AvatarGlow(
-            endRadius: 40.0,
-            child: FloatingActionButton(
-              onPressed: () {},
-              shape: const CircleBorder(),
-              tooltip: 'Press the button to speak',
-              child: const Icon(Icons.mic),
-            ),
-          )
-        : FloatingActionButton(
-            onPressed: () {},
-            shape: const CircleBorder(),
-            tooltip: 'Press the button to speak',
-            child: const Icon(Icons.mic),
-          );
+    return ConditionalParentWidget(
+      condition: _isListening,
+      child: Container(
+        margin: _isListening ? const EdgeInsets.all(0) : const EdgeInsets.all(32),
+        child: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              _isListening = !_isListening;
+            });
+          },
+          shape: const CircleBorder(),
+          tooltip: 'Press the button to speak',
+          child: const Icon(Icons.mic),
+        ),
+      ),
+      conditionalBuilder: (Widget child) =>
+          AvatarGlow(endRadius: 60, child: child),
+    );
   }
 }
