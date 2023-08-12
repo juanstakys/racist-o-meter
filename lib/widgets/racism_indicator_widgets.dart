@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'conditional_parent_widget.dart';
 
-class Indicator extends StatelessWidget {
-  final String text = '';
+class Indicator extends StatefulWidget {
 
   const Indicator({super.key, required text});
+
+  @override
+  State<Indicator> createState() => _IndicatorState();
+}
+
+class _IndicatorState extends State<Indicator> {
+  final String text = '';
 
   @override
   Widget build(BuildContext context) {
