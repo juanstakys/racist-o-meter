@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
+  conditional_parent_widget:
+    dependency: "direct main"
+    description:
+      name: conditional_parent_widget
+      sha256: "04c7e5e42616557d964e139bdefc21e5479e5faee4fac538b7313401553eb7e7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:

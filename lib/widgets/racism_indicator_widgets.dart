@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'conditional_parent_widget.dart';
+import 'package:conditional_parent_widget/conditional_parent_widget.dart' show ConditionalParentWidget;
+
 
 class Indicator extends StatefulWidget {
 
@@ -55,7 +56,7 @@ class _MicButtonState extends State<MicButton> {
           child: const Icon(Icons.mic),
         ),
       ),
-      conditionalBuilder: (Widget child) =>
+      parentBuilder: (Widget child) =>
           AvatarGlow(endRadius: 60, child: child),
     );
   }

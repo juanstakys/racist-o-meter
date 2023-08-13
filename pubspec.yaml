@@ -41,6 +41,7 @@ dependencies:
   avatar_glow: ^2.0.2
   http: ^1.1.0
   info_popup: ^3.0.5
+  conditional_parent_widget: ^0.0.2
 
 dev_dependencies:
   flutter_test:
