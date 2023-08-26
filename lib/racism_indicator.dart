@@ -74,66 +74,7 @@ class RacismIndicatorState extends State<RacismIndicator> {
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 )
-              : FutureBuilder(
-                  future: racismDetection(_lastWords),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                        return const Center(
-                          child: Text(
-                            "Say something",
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                            ),
-                          ),
-                        );
-                      case ConnectionState.waiting:
-                        return const Center(
-                          child: Text(
-                            "Waiting for GPT response",
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                            ),
-                          ),
-                        );
-                      case ConnectionState.active:
-                        return const Center(
-                          child: Text("This text should not display. WTH?"),
-                        );
-                      case ConnectionState.done:
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const SizedBox(
-                                width:
-                                    40), // Sizedbox for the text to stay centered (balances with InfoPopupWidget) TO-DO: Check wether it is a good practice or not, find alternative to keep the text centered with the icon on the right
-                            Text(
-                              (_isItRacist ? "RACIST" : "NOT RACIST"),
-                              style: const TextStyle(
-                                fontSize: 36,
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InfoPopupWidget(
-                                contentTitle: _explanation,
-                                child: const Icon(Icons.info),
-                              ),
-                            )
-                          ],
-                        );
-                    } // switch statement
-                  },
-                ),
+              : const Indicator(text: "null"),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
