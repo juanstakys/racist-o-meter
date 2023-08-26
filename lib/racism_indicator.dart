@@ -123,10 +123,10 @@ class RacismIndicatorState extends State<RacismIndicator> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: InfoPopupWidget(
                                 contentTitle: _explanation,
-                                child: Icon(Icons.info),
+                                child: const Icon(Icons.info),
                               ),
                             )
                           ],
